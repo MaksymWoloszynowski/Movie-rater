@@ -1,25 +1,41 @@
 -- USERS
-INSERT INTO users (id, username, email, password_hash) VALUES
-('11111111-1111-1111-1111-111111111111', 'alice', 'alice@mail.com', 'hash1'),
-('22222222-2222-2222-2222-222222222222', 'bob', 'bob@mail.com', 'hash2'),
-('33333333-3333-3333-3333-333333333333', 'carol', 'carol@mail.com', 'hash3'),
-('44444444-4444-4444-4444-444444444444', 'dave', 'dave@mail.com', 'hash4');
+INSERT INTO users (username, email, password_hash) VALUES
+('alice', 'alice@mail.com', 'hash1'),
+('bob', 'bob@mail.com', 'hash2'),
+('carol', 'carol@mail.com', 'hash3'),
+('dave', 'dave@mail.com', 'hash4');
 
 -- MOVIES
-INSERT INTO movies (id, title, year, genre) VALUES
-('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Inception', 2010, 'Sci-Fi'),
-('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Interstellar', 2014, 'Sci-Fi'),
-('cccccccc-cccc-cccc-cccc-cccccccccccc', 'The Matrix', 1999, 'Action'),
-('dddddddd-dddd-dddd-dddd-dddddddddddd', 'The Godfather', 1972, 'Crime'),
-('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Pulp Fiction', 1994, 'Crime');
+INSERT INTO movies (title, original_language, overview, poster_path, release_date, slug)
+VALUES
+('The Shawshank Redemption', 'en', 'Imprisoned in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.', '/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg', '1994-09-23', 'the-shawshank-redemption'),
+('The Godfather', 'en', 'Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.', '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg', '1972-03-14', 'the-godfather'),
+('The Dark Knight', 'en', 'Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker.', '/qJ2tW6WMUDux911r6m7haRef0WH.jpg', '2008-07-16', 'the-dark-knight'),
+('The Lord of the Rings: The Return of the King', 'en', 'As armies mass for a final battle that will decide the fate of the world--and powerful, ancient forces of Light and Dark compete to determine the outcome--one member of the Fellowship of the Ring is revealed as the noble heir to the throne of the Kings of Men. Yet, the sole hope for triumph over evil lies with a brave hobbit, Frodo, who, accompanied by his loyal friend Sam and the hideous, wretched Gollum, ventures deep into the very dark heart of Mordor on his seemingly impossible quest to destroy the Ring of Power.​', '/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg', '2003-12-17', 'the-lord-of-the-rings-the-return-of-the-king'),
+('Pulp Fiction', 'en', 'A burger-loving hit man, his philosophical partner, a drug-addled gangster''s moll and a washed-up boxer converge in this sprawling, comedic crime caper. Their adventures unfurl in three stories that ingeniously trip back and forth in time.', '/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg', '1994-09-10', 'pulp-fiction'),
+('Interstellar', 'en', 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.', '/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg', '2014-11-05', 'interstellar'),
+('Forrest Gump', 'en', 'A man with a low IQ has accomplished great things in his life and been present during significant historic events—in each case, far exceeding what anyone imagined he could do. But despite all he has achieved, his one true love eludes him.', '/Cw4hIUIAmSYfK9QfaUW5igp9La.jpg', '1994-06-23', 'forrest-gump'),
+('Fight Club', 'en', 'A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.', '/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg', '1999-10-15', 'fight-club'),
+('The Lord of the Rings: The Fellowship of the Ring', 'en', 'Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.', '/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg', '2001-12-18', 'the-lord-of-the-rings-the-fellowship-of-the-ring'),
+('The Lord of the Rings: The Two Towers', 'en', 'Frodo Baggins and the other members of the Fellowship continue on their sacred quest to destroy the One Ring--but on separate paths. Their destinies lie at two towers--Orthanc Tower in Isengard, where the corrupt wizard Saruman awaits, and Sauron''s fortress at Barad-dur, deep within the dark lands of Mordor. Frodo and Sam are trekking to Mordor to destroy the One Ring of Power while Gimli, Legolas and Aragorn search for the orc-captured Merry and Pippin. All along, nefarious wizard Saruman awaits the Fellowship members at the Orthanc Tower in Isengard.', '/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg', '2002-12-18', 'the-lord-of-the-rings-the-two-towers'),
+('Se7en', 'en', 'Two homicide detectives are on a desperate hunt for a serial killer whose crimes are based on the "seven deadly sins" in this dark and haunting film that takes viewers from the tortured remains of one victim to the next. The seasoned Det. Somerset researches each sin in an effort to get inside the killer''s mind, while his novice partner, Mills, scoffs at his efforts to unravel the case.', '/191nKfP0ehp3uIvWqgPbFmI4lv9.jpg', '1995-09-22', 'se7en'),
+('Inception', 'en', 'Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible: "inception", the implantation of another person''s idea into a target''s subconscious.', '/xlaY2zyzMfkhk0HSC5VUwzoZPU1.jpg', '2010-07-15', 'inception'),
+('Back to the Future', 'en', 'Eighties teenager Marty McFly is accidentally sent back in time to 1955, inadvertently disrupting his parents'' first meeting and attracting his mother''s romantic interest. Marty must repair the damage to history by rekindling his parents'' romance and - with the help of his eccentric inventor friend Doc Brown - return to 1985.', '/vN5B5WgYscRGcQpVhHl6p9DDTP0.jpg', '1985-07-03', 'back-to-the-future'),
+('The Matrix', 'en', 'Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.', '/aOIuZAjPaRIE6CMzbazvcHuHXDc.jpg', '1999-03-31', 'the-matrix'),
+('Avengers: Infinity War', 'en', 'As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.', '/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg', '2018-04-25', 'avengers-infinity-war'),
+('Avengers: Endgame', 'en', 'After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos'' actions and restore order to the universe once and for all, no matter what consequences may be in store.', '/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg', '2019-04-24', 'avengers-endgame'),
+('Gladiator', 'en', 'After the death of Emperor Marcus Aurelius, his devious son takes power and demotes Maximus, one of Rome''s most capable generals who Marcus preferred. Eventually, Maximus is forced to become a gladiator and battle to the death against other men for the amusement of paying audiences.', '/wN2xWp1eIwCKOD0BHTcErTBv1Uq.jpg', '2000-05-04', 'gladiator'),
+('Inglourious Basterds', 'en', 'In Nazi-occupied France during World War II, a group of Jewish-American soldiers known as "The Basterds" are chosen specifically to spread fear throughout the Third Reich by scalping and brutally killing Nazis. The Basterds, lead by Lt. Aldo Raine soon cross paths with a French-Jewish teenage girl who runs a movie theater in Paris which is targeted by the soldiers.', '/7sfbEnaARXDDhKm0CZ7D7uc2sbo.jpg', '2009-08-02', 'inglourious-basterds'),
+('Star Wars', 'en', 'Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.', '/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg', '1977-05-25', 'star-wars'),
+('Shutter Island', 'en', 'World War II soldier-turned-U.S. Marshal Teddy Daniels investigates the disappearance of a patient from a hospital for the criminally insane, but his efforts are compromised by troubling visions and a mysterious doctor.', '/nrmXQ0zcZUL8jFLrakWc90IR8z9.jpg', '2010-02-14', 'shutter-island');
 
 -- REVIEWS
-INSERT INTO reviews (id, user_id, movie_id, rating, comment) VALUES
-('10000000-0000-0000-0000-000000000001', '11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 9, 'Very mind bending'),
-('10000000-0000-0000-0000-000000000002', '22222222-2222-2222-2222-222222222222', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 8, 'Good but complex'),
-('10000000-0000-0000-0000-000000000003', '33333333-3333-3333-3333-333333333333', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 10, 'Masterpiece'),
-('10000000-0000-0000-0000-000000000004', '11111111-1111-1111-1111-111111111111', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 10, 'Classic'),
-('10000000-0000-0000-0000-000000000005', '44444444-4444-4444-4444-444444444444', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 9, 'Still holds up'),
-('10000000-0000-0000-0000-000000000006', '22222222-2222-2222-2222-222222222222', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 10, 'One of the best ever'),
-('10000000-0000-0000-0000-000000000007', '33333333-3333-3333-3333-333333333333', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 8, 'Stylish and fun'),
-('10000000-0000-0000-0000-000000000008', '44444444-4444-4444-4444-444444444444', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 9, 'Great dialogues');
+INSERT INTO reviews (user_id, movie_id, rating, comment) VALUES
+('1', '1', 9, 'Very mind bending'),
+('2', '4', 8, 'Good but complex'),
+('3', '2', 10, 'Masterpiece'),
+('1', '3', 10, 'Classic'),
+('4', '2', 9, 'Still holds up'),
+('2', '5', 10, 'One of the best ever'),
+('3', '6', 8, 'Stylish and fun'),
+('4', '8', 9, 'Great dialogues');

@@ -1,0 +1,25 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: #111;
+    color: white;
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}

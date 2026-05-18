@@ -4,7 +4,7 @@ const search = async (req, res) => {
   const query = req.query.q?.trim();
 
   if (!query || query.length < 2) {
-    return res.status(200).json({ movies: [] });
+    return res.status(200).json([]);
   }
 
   try {

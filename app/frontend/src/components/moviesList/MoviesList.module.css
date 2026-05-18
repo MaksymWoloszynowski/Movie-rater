@@ -1,0 +1,14 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  justify-items: center;
+}
+
+.empty {
+  color: #aaa;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
