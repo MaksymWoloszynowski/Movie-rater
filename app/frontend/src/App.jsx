@@ -8,6 +8,7 @@ import Movies from "./pages/movies/Movies";
 import Movie from "./pages/movie/Movie";
 import AppLayout from "./layouts/AppLayout";
 import PersistLogin from "./pages/PersistLogin";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="discover" element={<Movies />} />
           <Route path="movies/:slug" element={<Movie />} />
+          <Route path="users/:username" element={<Profile />} />
 
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

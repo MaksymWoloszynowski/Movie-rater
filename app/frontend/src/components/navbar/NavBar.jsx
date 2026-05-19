@@ -23,7 +23,7 @@ const NavBar = () => {
         {auth ? (
           <>
             <span>Hello, {auth.username}</span>
-            <Link to={`/users/${auth.id}`}>Profile</Link>
+            <Link to={`/users/${auth.username}`}>Profile</Link>
 
             <button onClick={() => logout()}>Logout</button>
           </>
