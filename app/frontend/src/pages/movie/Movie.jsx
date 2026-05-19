@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../../api/api";
 import useAuth from "../../hooks/useAuth";
 import styles from "./Movie.module.css";
@@ -27,7 +27,7 @@ const Movie = () => {
         setMovie(movieData);
 
         const reviewsRes = await api.get(`/movies/${movieData.id}/reviews`);
-        console.log(reviewsRes.data)
+        console.log(reviewsRes.data);
         setReviews(reviewsRes.data);
       } catch (err) {
         console.error(err);
@@ -84,6 +84,11 @@ const Movie = () => {
             {movie.release_date ? movie.release_date.split("-")[0] : "N/A"}
           </p>
 
+          <p className={styles.movieRating}>
+              ⭐ {movie.average_rating ?? "0.0"} / 10 •{" "}
+              {movie.reviews_count ?? 0} reviews
+          </p>
+
           <p className={styles.overview}>
             {movie.overview || "No description available."}
           </p>
@@ -98,11 +103,11 @@ const Movie = () => {
         {reviews.map((r) => (
           <div key={r.id} className={styles.review}>
             <div className={styles.header}>
-              <span className={styles.username}>{r.username}</span>
+              <Link to={`/users/${r.username}`}><span className={styles.username}>{r.username}</span></Link>
               <span className={styles.rating}>{r.rating}/10</span>
             </div>
             <p className={styles.comment}>{r.comment}</p>
-          </div>  
+          </div>
         ))}
       </section>
 
@@ -121,8 +126,8 @@ const Movie = () => {
               sx={{
                 color: "#f5c518",
                 "& .MuiRating-iconEmpty": {
-                  color: "rgba(255,255,255,0.3)"
-                }
+                  color: "rgba(255,255,255,0.3)",
+                },
               }}
             />
 

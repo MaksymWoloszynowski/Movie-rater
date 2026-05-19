@@ -25,7 +25,7 @@ const NavBar = () => {
             <span>Hello, {auth.username}</span>
             <Link to={`/users/${auth.username}`}>Profile</Link>
 
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => logout()} className={styles.logout}>Logout</button>
           </>
         ) : (
           <>

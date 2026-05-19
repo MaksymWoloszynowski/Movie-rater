@@ -21,7 +21,7 @@
   width: 16rem;
   border-radius: 1rem;
   object-fit: cover;
-  box-shadow: 0 0 2rem rgba(0,0,0,0.5);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
 }
 
 .info {
@@ -138,10 +138,21 @@
   padding: 0.25rem 0.6rem;
   border-radius: 999rem;
 }
+
 .comment {
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.95rem;
   line-height: 1.5;
 
   margin: 0;
+}
+
+.movieRating {
+  margin-top: 0.5rem;
+  font-weight: 600;
+
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5em;
 }

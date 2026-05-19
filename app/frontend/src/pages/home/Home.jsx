@@ -4,7 +4,6 @@ import styles from "./Home.module.css";
 const Home = () => {
   return (
     <div className={styles.page}>
-
       <div className={styles.content}>
         <h1 className={styles.title}>Movie App</h1>
 

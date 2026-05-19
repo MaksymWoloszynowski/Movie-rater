@@ -13,20 +13,14 @@ const Movies = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useDebounce(
-    () => setDebouncedSearchTerm(searchTerm),
-    500,
-    [searchTerm]
-  );
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
   const fetchMovies = async (query = "") => {
     setLoading(true);
     setError("");
 
     try {
-      const result = await api.get(
-        `/search?q=${encodeURIComponent(query)}`
-      );
+      const result = await api.get(`/search?q=${encodeURIComponent(query)}`);
 
       setMovies(result.data);
     } catch (err) {
@@ -47,17 +41,19 @@ const Movies = () => {
       <div className={styles.container}>
         <h1 className={styles.title}>Search Movies</h1>
 
-        <Search
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
         {loading && <p className={styles.message}>Loading...</p>}
         {error && <p className={styles.error}>{error}</p>}
 
-        {!loading && !error && (
-          <MoviesList movies={movies} />
-        )}
+        {!loading &&
+          !error &&
+          searchTerm &&
+          (movies?.length ? (
+            <MoviesList movies={movies} />
+          ) : (
+            <p className={styles.empty}>No movies found</p>
+          ))}
       </div>
     </div>
   );

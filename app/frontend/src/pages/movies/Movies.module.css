@@ -1,5 +1,4 @@
 .page {
-    height: 100%;
   background: #0f0f0f;
   color: white;
   display: flex;
@@ -29,4 +28,11 @@
 .error {
   color: #ff4d4d;
   font-size: 1rem;
+}
+
+.empty {
+  color: #aaa;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
 }

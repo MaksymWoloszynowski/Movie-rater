@@ -3,11 +3,13 @@ import styles from "./MovieCard.module.css";
 import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleClick = () => {
-        navigate(`/movies/${movie.slug}`)
-    }
+  const handleClick = () => {
+    navigate(`/movies/${movie.slug}`);
+  };
+
+  console.log(movie);
 
   return (
     <div className={styles.card} onClick={handleClick}>

@@ -51,7 +51,9 @@
   border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 600;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .button:hover {

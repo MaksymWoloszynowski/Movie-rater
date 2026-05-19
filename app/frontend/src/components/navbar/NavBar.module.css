@@ -5,11 +5,12 @@
     background: #111;
     color: white;
     align-items: center;
+    font-size: 1.25rem;
 }
 
 .left {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     align-items: center;
 }
 
@@ -21,5 +22,38 @@
 
 .logo {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.75rem;
+}
+
+a:hover {
+  color: red;
+}
+
+.logout {
+  padding: 0.6rem 1.2rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999rem;
+
+  background: transparent;
+  color: white;
+
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.logout:hover {
+  background: rgba(229, 9, 20, 0.15);
+  border-color: rgba(229, 9, 20, 0.6);
+  color: #ff4d4d;
+
+  transform: translateY(-0.1rem);
+}
+
+.logout:active {
+  transform: translateY(0);
 }
