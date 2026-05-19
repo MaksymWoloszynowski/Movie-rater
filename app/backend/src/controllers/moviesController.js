@@ -15,11 +15,22 @@ const getMovieByTitle = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT * FROM movies WHERE slug = $1
+      `SELECT m.id,
+          m.title,
+          m.original_language,
+          m.overview,
+          m.poster_path,
+          m.release_date,
+          COALESCE(ROUND(AVG(r.rating), 1), 0) AS average_rating,
+          COUNT(r.movie_id) AS reviews_count 
+        FROM movies m 
+        LEFT JOIN reviews r ON r.movie_id = m.id 
+        WHERE slug = $1
                OR LOWER(slug) = LOWER($1)
                OR LOWER(title) = LOWER(REPLACE($1, '-', ' '))
                OR LOWER(title) LIKE LOWER('%' || REPLACE($1, '-', ' ') || '%')
-            LIMIT 1
+        GROUP BY m.id
+        LIMIT 1;
         `,
       [identifier],
     );
