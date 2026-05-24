@@ -88,6 +88,7 @@ jobs:
           kubectl rollout status statefulset/postgres --timeout=120s
           kubectl rollout status deployment/frontend-deployment --timeout=120s
           kubectl rollout status deployment/redis-deployment --timeout=120s
+          kubectl rollout status deployment/backend-deployment --timeout=120s
         
       - name: Verify backend API
         run: |
