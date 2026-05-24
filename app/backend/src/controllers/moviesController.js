@@ -1,4 +1,5 @@
 import { pool } from "../db.js";
+import { getOrSetCache } from "../utils/getOrSetCache.js";
 
 const getAllMovies = async (req, res) => {
   try {
@@ -9,6 +10,28 @@ const getAllMovies = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch movies" });
   }
 };
+
+const getBestReviewedMovies = async (req, res) => {
+  try {
+    const { value, hit } = await getOrSetCache("top10", 10, async () => {
+      const result = await pool.query(`
+        SELECT * 
+        FROM movies m 
+        LEFT JOIN reviews r ON r.movie_id = m.id
+        GROUP BY m.id, r.user_id, r.movie_id 
+        ORDER BY ROUND(AVG(r.rating), 1) 
+        LIMIT 10`);
+      return result.rows;
+    });
+
+    res.set("X-Cache", hit ? "HIT" : "MISS");
+
+    res.json(value);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to fetch movies" });
+  }
+}
 
 const getMovieByTitle = async (req, res) => {
   const { identifier } = req.params;
@@ -44,5 +67,6 @@ const getMovieByTitle = async (req, res) => {
 
 export default {
   getAllMovies,
+  getBestReviewedMovies,
   getMovieByTitle,
 };

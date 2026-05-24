@@ -4,13 +4,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .content {
+  margin: auto;
   position: relative;
   z-index: 1;
 
@@ -18,7 +15,7 @@
   color: white;
 
   max-width: 40rem;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .title {
@@ -59,4 +56,14 @@
 .button:hover {
   transform: scale(1.05);
   background: #ff0a16;
+}
+
+.message {
+  color: #aaa;
+  font-size: 1rem;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 1rem;
 }

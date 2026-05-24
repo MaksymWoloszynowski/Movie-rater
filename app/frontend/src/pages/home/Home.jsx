@@ -1,7 +1,37 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
+import { useState } from "react";
+import { useEffect } from "react";
+import api from "../../api/api";
+import MoviesList from "../../components/moviesList/MoviesList";
 
 const Home = () => {
+  const [bestRatedMovies, setBestRatedMovies] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const result = await api.get("/movies/top10");
+
+        setBestRatedMovies(result.data);
+      } catch (error) {
+        console.error(err);
+        setError("Error fetching movies");
+        setBestRatedMovies([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className={styles.page}>
       <div className={styles.content}>
@@ -18,7 +48,12 @@ const Home = () => {
         <Link to="/discover" className={styles.button}>
           Explore Movies
         </Link>
+
+        {loading && <p className={styles.message}>Loading...</p>}
+        {error && <p className={styles.error}>{error}</p>}
+
       </div>
+      {!loading && !error && <MoviesList movies={bestRatedMovies} />}
     </div>
   );
 };

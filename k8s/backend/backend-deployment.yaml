@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: movie-rater
+  labels:
+    component: backend
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 20% 
+      maxSurge: 20%
+  replicas: 2
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      initContainers:
+      - name: wait-for-postgres
+        image: postgres:17-alpine
+        command:
+          - sh
+          - -c
+          - |
+            echo "Waiting for PostgreSQL..."
+
+            until pg_isready \
+              -h postgres-service.movie-rater.svc.cluster.local \
+              -p 5432 \
+              -U "$POSTGRES_USER"; do
+              echo "Postgres not ready yet..."
+              sleep 2
+            done
+
+            echo "Postgres is ready!"
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_USER
+      containers:
+      - name: backend
+        image: maksymw/movie-rater-backend:v1
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "100m"
+          limits:
+            memory: "1G"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DB_PASSWORD
+        - name: JWT_SECRET 
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: JWT_SECRET
+        - name: DB_HOST 
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: DB_HOST
+        - name: DB_PORT 
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: DB_PORT
+        - name: DB_NAME 
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: DB_NAME
+        - name: REDIS_PORT 
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: REDIS_PORT
+        - name: REDIS_HOST 
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: REDIS_HOST

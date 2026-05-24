@@ -1,0 +1,123 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: movie-rater
+data:
+  init.sql: |-
+    CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+    -- USERS
+    CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL
+    );
+
+    -- MOVIES
+    CREATE TABLE movies (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        original_language CHAR(2) NOT NULL,
+        overview TEXT,
+        poster_path VARCHAR(255),
+        release_date DATE,
+        slug VARCHAR(255) NOT NULL
+    );
+
+    -- REVIEWS
+    CREATE TABLE reviews (
+        user_id SERIAL REFERENCES users(id) ON DELETE CASCADE,
+        movie_id SERIAL REFERENCES movies(id) ON DELETE CASCADE,
+        rating INT CHECK (rating BETWEEN 1 AND 10),
+        comment TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        PRIMARY KEY (user_id, movie_id)
+    );
+  seed.sql: |-
+    -- USERS
+    INSERT INTO users (username, email, password_hash) VALUES
+    ('alice', 'alice@mail.com', 'hash1'),
+    ('bob', 'bob@mail.com', 'hash2'),
+    ('carol', 'carol@mail.com', 'hash3'),
+    ('dave', 'dave@mail.com', 'hash4'),
+    ('john', 'john@mail.com', 'hash'),
+    ('anna', 'anna@mail.com', 'hash'),
+    ('mike', 'mike@mail.com', 'hash'),
+    ('sara', 'sara@mail.com', 'hash'),
+    ('tom', 'tom@mail.com', 'hash'),
+    ('lisa', 'lisa@mail.com', 'hash'),
+    ('alex', 'alex@mail.com', 'hash'),
+    ('emma', 'emma@mail.com', 'hash'),
+    ('peter', 'peter@mail.com', 'hash'),
+    ('kate', 'kate@mail.com', 'hash'),
+    ('maksym', 'maksym@gmail.com', '$2b$10$gDGBbxTg6W1bs2SaLmTje.kbE6.9GST.EOjYD7tok7fkxBzCXfNwS')
+    ;
+
+    -- MOVIES
+    INSERT INTO movies (title, original_language, overview, poster_path, release_date, slug)
+    VALUES
+    ('The Shawshank Redemption', 'en', 'Imprisoned in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.', '/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg', '1994-09-23', 'the-shawshank-redemption'),
+    ('The Godfather', 'en', 'Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.', '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg', '1972-03-14', 'the-godfather'),
+    ('The Dark Knight', 'en', 'Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker.', '/qJ2tW6WMUDux911r6m7haRef0WH.jpg', '2008-07-16', 'the-dark-knight'),
+    ('The Lord of the Rings: The Return of the King', 'en', 'As armies mass for a final battle that will decide the fate of the world--and powerful, ancient forces of Light and Dark compete to determine the outcome--one member of the Fellowship of the Ring is revealed as the noble heir to the throne of the Kings of Men. Yet, the sole hope for triumph over evil lies with a brave hobbit, Frodo, who, accompanied by his loyal friend Sam and the hideous, wretched Gollum, ventures deep into the very dark heart of Mordor on his seemingly impossible quest to destroy the Ring of Power.​', '/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg', '2003-12-17', 'the-lord-of-the-rings-the-return-of-the-king'),
+    ('Pulp Fiction', 'en', 'A burger-loving hit man, his philosophical partner, a drug-addled gangster''s moll and a washed-up boxer converge in this sprawling, comedic crime caper. Their adventures unfurl in three stories that ingeniously trip back and forth in time.', '/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg', '1994-09-10', 'pulp-fiction'),
+    ('Interstellar', 'en', 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.', '/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg', '2014-11-05', 'interstellar'),
+    ('Forrest Gump', 'en', 'A man with a low IQ has accomplished great things in his life and been present during significant historic events—in each case, far exceeding what anyone imagined he could do. But despite all he has achieved, his one true love eludes him.', '/Cw4hIUIAmSYfK9QfaUW5igp9La.jpg', '1994-06-23', 'forrest-gump'),
+    ('Fight Club', 'en', 'A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.', '/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg', '1999-10-15', 'fight-club'),
+    ('The Lord of the Rings: The Fellowship of the Ring', 'en', 'Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.', '/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg', '2001-12-18', 'the-lord-of-the-rings-the-fellowship-of-the-ring'),
+    ('The Lord of the Rings: The Two Towers', 'en', 'Frodo Baggins and the other members of the Fellowship continue on their sacred quest to destroy the One Ring--but on separate paths. Their destinies lie at two towers--Orthanc Tower in Isengard, where the corrupt wizard Saruman awaits, and Sauron''s fortress at Barad-dur, deep within the dark lands of Mordor. Frodo and Sam are trekking to Mordor to destroy the One Ring of Power while Gimli, Legolas and Aragorn search for the orc-captured Merry and Pippin. All along, nefarious wizard Saruman awaits the Fellowship members at the Orthanc Tower in Isengard.', '/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg', '2002-12-18', 'the-lord-of-the-rings-the-two-towers'),
+    ('Se7en', 'en', 'Two homicide detectives are on a desperate hunt for a serial killer whose crimes are based on the "seven deadly sins" in this dark and haunting film that takes viewers from the tortured remains of one victim to the next. The seasoned Det. Somerset researches each sin in an effort to get inside the killer''s mind, while his novice partner, Mills, scoffs at his efforts to unravel the case.', '/191nKfP0ehp3uIvWqgPbFmI4lv9.jpg', '1995-09-22', 'se7en'),
+    ('Inception', 'en', 'Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible: "inception", the implantation of another person''s idea into a target''s subconscious.', '/xlaY2zyzMfkhk0HSC5VUwzoZPU1.jpg', '2010-07-15', 'inception'),
+    ('Back to the Future', 'en', 'Eighties teenager Marty McFly is accidentally sent back in time to 1955, inadvertently disrupting his parents'' first meeting and attracting his mother''s romantic interest. Marty must repair the damage to history by rekindling his parents'' romance and - with the help of his eccentric inventor friend Doc Brown - return to 1985.', '/vN5B5WgYscRGcQpVhHl6p9DDTP0.jpg', '1985-07-03', 'back-to-the-future'),
+    ('The Matrix', 'en', 'Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.', '/aOIuZAjPaRIE6CMzbazvcHuHXDc.jpg', '1999-03-31', 'the-matrix'),
+    ('Avengers: Infinity War', 'en', 'As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.', '/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg', '2018-04-25', 'avengers-infinity-war'),
+    ('Avengers: Endgame', 'en', 'After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos'' actions and restore order to the universe once and for all, no matter what consequences may be in store.', '/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg', '2019-04-24', 'avengers-endgame'),
+    ('Gladiator', 'en', 'After the death of Emperor Marcus Aurelius, his devious son takes power and demotes Maximus, one of Rome''s most capable generals who Marcus preferred. Eventually, Maximus is forced to become a gladiator and battle to the death against other men for the amusement of paying audiences.', '/wN2xWp1eIwCKOD0BHTcErTBv1Uq.jpg', '2000-05-04', 'gladiator'),
+    ('Inglourious Basterds', 'en', 'In Nazi-occupied France during World War II, a group of Jewish-American soldiers known as "The Basterds" are chosen specifically to spread fear throughout the Third Reich by scalping and brutally killing Nazis. The Basterds, lead by Lt. Aldo Raine soon cross paths with a French-Jewish teenage girl who runs a movie theater in Paris which is targeted by the soldiers.', '/7sfbEnaARXDDhKm0CZ7D7uc2sbo.jpg', '2009-08-02', 'inglourious-basterds'),
+    ('Star Wars', 'en', 'Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.', '/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg', '1977-05-25', 'star-wars'),
+    ('Shutter Island', 'en', 'World War II soldier-turned-U.S. Marshal Teddy Daniels investigates the disappearance of a patient from a hospital for the criminally insane, but his efforts are compromised by troubling visions and a mysterious doctor.', '/nrmXQ0zcZUL8jFLrakWc90IR8z9.jpg', '2010-02-14', 'shutter-island');
+
+    -- REVIEWS
+    INSERT INTO reviews (user_id, movie_id, rating, comment) VALUES
+    (1, 1, 10, 'Masterpiece in every aspect'),
+    (1, 2, 9, 'Beautiful and emotional'),
+    (1, 3, 10, 'Best superhero movie ever'),
+    (1, 4, 8, 'Very deep and philosophical'),
+    (1, 5, 9, 'Groundbreaking sci-fi'),
+    (2, 1, 8, 'Great concept and visuals'),
+    (2, 2, 10, 'Perfect storytelling'),
+    (2, 3, 9, 'Amazing performance'),
+    (2, 6, 8, 'Visually stunning'),
+    (3, 2, 7, 'A bit too slow for me'),
+    (3, 3, 8, 'Very solid movie'),
+    (3, 4, 9, 'Very unique and dark'),
+    (3, 5, 10, 'One of the best sci-fi'),
+    (4, 1, 9, 'Really enjoyed it'),
+    (4, 2, 9, 'Great emotional depth'),
+    (4, 5, 8, 'Good but complex'),
+    (4, 7, 10, 'Perfect historical film'),
+    (5, 1, 7, 'Good but overrated'),
+    (5, 3, 8, 'Very entertaining'),
+    (5, 6, 9, 'Amazing visuals'),
+    (5, 8, 10, 'Mind-blowing twist'),
+    (6, 2, 10, 'Absolutely perfect'),
+    (6, 4, 9, 'Very artistic'),
+    (6, 5, 8, 'Interesting concept'),
+    (6, 7, 9, 'Great performance'),
+    (7, 1, 8, 'Solid movie'),
+    (7, 3, 9, 'One of the best'),
+    (7, 6, 10, 'Incredible world-building'),
+    (7, 8, 9, 'Very suspenseful'),
+    (8, 2, 9, 'Beautiful story'),
+    (8, 5, 7, 'A bit confusing'),
+    (8, 6, 8, 'Very good sci-fi'),
+    (8, 7, 10, 'Excellent movie'),
+    (9, 3, 10, 'Legendary film'),
+    (9, 4, 8, 'Very deep meaning'),
+    (9, 5, 9, 'Great experience'),
+    (9, 8, 10, 'Perfect thriller'),
+    (10, 1, 9, 'Loved it'),
+    (10, 2, 8, 'Very emotional'),
+    (10, 6, 10, 'Best sci-fi ever'),
+    (10, 7, 9, 'Great cinematography');

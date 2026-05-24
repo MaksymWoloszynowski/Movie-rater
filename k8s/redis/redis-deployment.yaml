@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: movie-rater
+  labels:
+    component: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: redis
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:8.6.2-alpine
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
