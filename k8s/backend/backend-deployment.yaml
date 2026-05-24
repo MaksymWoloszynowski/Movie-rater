@@ -31,19 +31,12 @@ spec:
 
             until pg_isready \
               -h postgres-service.movie-rater.svc.cluster.local \
-              -p 5432 \
-              -U "$POSTGRES_USER"; do
+              -p 5432; do
               echo "Postgres not ready yet..."
               sleep 2
             done
 
             echo "Postgres is ready!"
-        env:
-          - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: POSTGRES_USER
       containers:
       - name: backend
         image: maksymw/movie-rater-backend:v1
