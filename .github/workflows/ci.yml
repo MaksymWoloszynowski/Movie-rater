@@ -32,14 +32,14 @@ jobs:
         with:
           context: ./app/backend
           push: true
-          tags: ghcr.io/${{ env.REPO }}/movie-rater-backend:latest
+          tags: ghcr.io/${{ env.REPO }}/movie-rater-backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./app/frontend
           push: true
-          tags: ghcr.io/${{ env.REPO }}/movie-rater-frontend:latest
+          tags: ghcr.io/${{ env.REPO }}/movie-rater-frontend:${{ github.sha }}
 
 
   deploy:
@@ -47,19 +47,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Uruchom klaster kind
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: test-cluster
 
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v4
+      - name: Set lowercase repo
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 
-      - name: Set kubeconfig
+      - name: Załaduj obraz do kind
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
+          docker pull ghcr.io/${{ env.REPO }}/movie-rater-frontend:${{ github.sha }}
+          kind load docker-image \
+            ghcr.io/${{ env.REPO }}/movie-rater-frontend:${{ github.sha }} \
+            --name test-cluster
 
-      - name: Deploy to cluster
+      - name: Załaduj obraz do kind
+        run: |
+          docker pull ghcr.io/${{ env.REPO }}/movie-rater-backend:${{ github.sha }}
+          kind load docker-image \
+            ghcr.io/${{ env.REPO }}/movie-rater-backend:${{ github.sha }} \
+            --name test-cluster
+
+      - name: Wdróż system
         run: |
           kubectl apply -f k8s/
-          kubectl rollout restart deployment backend-deployment
-          kubectl rollout restart deployment frontend-deployment
+          kubectl set image deployment/backend-deployment \
+            backend=ghcr.io/${{ env.REPO }}/movie-rater-backend:${{ github.sha }}
+          kubectl set image deployment/frontend-deployment \
+            backend=ghcr.io/${{ env.REPO }}/movie-rater-frontend:${{ github.sha }}
+
+      - name: Poczekaj na gotowość Podów
+        run: |
+          kubectl rollout status deployment/postgres --timeout=120s
+          kubectl rollout status deployment/backend --timeout=120s
