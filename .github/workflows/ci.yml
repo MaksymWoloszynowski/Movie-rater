@@ -74,15 +74,7 @@ jobs:
 
       - name: Wdróż system
         run: |
-          kubectl apply -f k8s/namespace.yaml
-          kubectl config set-context --current --namespace=movie-rater
-
-          kubectl apply -f k8s/postgres/
-          kubectl apply -f k8s/redis/
-          kubectl apply -f k8s/backend/
-          kubectl apply -f k8s/frontend/
-
-          kubectl apply -f k8s/ingress.yaml
+          ./run.sh
           kubectl set image deployment/backend-deployment \
             backend=ghcr.io/${{ env.REPO }}/movie-rater-backend:${{ github.sha }}
           kubectl set image deployment/frontend-deployment \
