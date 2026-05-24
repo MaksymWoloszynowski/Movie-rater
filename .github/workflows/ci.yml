@@ -27,14 +27,14 @@ jobs:
         with:
           context: ./app/backend
           push: true
-          tags: ghcr.io/${{ github.repository_lowercase }}/backend:latest
+          tags: ghcr.io/maksymw/movie-rater-backend:latest
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./app/frontend
           push: true
-          tags: ghcr.io/${{ github.repository_lowercase }}/frontend:latest
+          tags: ghcr.io/maksymw/movie-rater-frontend:latest
 
 
   deploy:
