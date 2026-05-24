@@ -21,20 +21,22 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set lowercase repo
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
           context: ./app/backend
           push: true
-          tags: ghcr.io/maksymw/movie-rater-backend:latest
+          tags: ghcr.io/${{ env.REPO }}/movie-rater-backend:latest
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./app/frontend
           push: true
-          tags: ghcr.io/maksymw/movie-rater-frontend:latest
+          tags: ghcr.io/${{ env.REPO }}/movie-rater-frontend:latest
 
 
   deploy:
