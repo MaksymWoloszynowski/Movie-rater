@@ -100,3 +100,18 @@ jobs:
             kubectl port-forward svc/backend-service 3000:3000 &
             sleep 5
             curl --fail http://localhost:3000/api/health
+      
+      - name: Debug cluster state
+        if: failure()
+        run: |
+            echo "=== PODS ==="
+            kubectl get pods -n movie-rater -o wide
+
+            echo "=== DESCRIBE ==="
+            kubectl describe pods -n movie-rater
+
+            echo "=== BACKEND LOGS ==="
+            kubectl logs -n movie-rater -l component=backend --tail=200 || true
+
+            echo "=== EVENTS ==="
+            kubectl get events -n movie-rater --sort-by=.metadata.creationTimestamp
