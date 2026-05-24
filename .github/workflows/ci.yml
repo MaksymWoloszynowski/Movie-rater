@@ -47,6 +47,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Uruchom klaster kind
         uses: helm/kind-action@v1
         with:
