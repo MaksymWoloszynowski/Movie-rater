@@ -45,3 +45,5 @@ echo "Deployment finished!"
 
 echo "Cluster status:"
 kubectl get pods -n movie-rater
+
+kubectl config set-context --current --namespace=movie-rater

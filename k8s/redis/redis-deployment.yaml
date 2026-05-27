@@ -18,6 +18,12 @@ spec:
       containers:
       - name: redis
         image: redis:8.6.2-alpine
+        command:
+        - redis-server
+        - "--save"
+        - ""
+        - "--appendonly"
+        - "no"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
