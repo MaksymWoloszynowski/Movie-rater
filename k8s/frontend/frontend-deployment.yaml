@@ -48,3 +48,19 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
+          env:
+          - name: VITE_KEYCLOAK_URL 
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-config
+                key: VITE_KEYCLOAK_URL
+          - name: VITE_KEYCLOAK_REALM 
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-config
+                key: VITE_KEYCLOAK_REALM
+          - name: VITE_KEYCLOAK_CLIENT 
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-config
+                key: VITE_KEYCLOAK_CLIENT

@@ -7,7 +7,7 @@ import { Rating } from "@mui/material";
 
 const Movie = () => {
   const { slug } = useParams();
-  const { auth } = useAuth();
+  const { isLogin } = useAuth();
 
   const [movie, setMovie] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -114,7 +114,7 @@ const Movie = () => {
       <section className={styles.addReview}>
         <h3>Add Review</h3>
 
-        {auth ? (
+        {isLogin ? (
           <>
             <Rating
               name="customized-10"

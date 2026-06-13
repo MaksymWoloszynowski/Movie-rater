@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: movie-rater
+data: 
+  VITE_KEYCLOAK_URL: "http://auth.movie-rater.local"
+  VITE_KEYCLOAK_REALM: movie-rater
+  VITE_KEYCLOAK_CLIENT: frontend-client

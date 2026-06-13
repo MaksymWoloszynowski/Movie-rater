@@ -1,42 +1,80 @@
-services:
-  frontend:
-    build: ./app/frontend
-    container_name: frontend
-    ports:
-      - 80:8080
-    configs:
-    - source: nginx_config
-      target: /etc/nginx/nginx.conf
-    depends_on:
-      backend:
-        condition: service_started
+# services:
+#   frontend:
+#     build: ./app/frontend
+#     container_name: frontend
+#     ports:
+#       - 80:8080
+#     configs:
+#     - source: nginx_config
+#       target: /etc/nginx/conf.d/default.conf
+#     depends_on:
+#       backend:
+#         condition: service_started
 
-  backend:
-    build: ./app/backend
-    env_file: ./app/backend/.env
-    container_name: backend
-    depends_on:
-      postgres:
-        condition: service_healthy
+#   backend:
+#     build: ./app/backend
+#     env_file: ./app/backend/.env
+#     container_name: backend
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+#   postgres:
+#     image: postgres:16
+#     container_name: movie_postgres
+#     environment:
+#       POSTGRES_USER: movie
+#       POSTGRES_PASSWORD: movie
+#       POSTGRES_DB: movie
+#     volumes:
+#       - movie_data:/var/lib/postgresql/data
+#       - ./app/backend/db:/docker-entrypoint-initdb.d
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U postgres"]
+#       interval: 1s
+#       timeout: 3s
+#       retries: 5
+    
+#   redis:
+#     image: redis:8.6.2-alpine
+#     container_name: redis
+#     healthcheck:
+#       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+#       interval: 1s
+#       timeout: 3s
+#       retries: 5
+
+# volumes:
+#   movie_data:
+
+# configs:
+#   nginx_config:
+#     file: ./app/frontend/nginx/nginx.conf
+
+version: '3.9'
+
+services:
   postgres:
     image: postgres:16
-    container_name: movie_postgres
     environment:
-      POSTGRES_USER: movie
-      POSTGRES_PASSWORD: movie
-      POSTGRES_DB: movie
+      POSTGRES_DB: ${POSTGRESQL_DB}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASS}
     volumes:
-      - movie_data:/var/lib/postgresql/data
-      - ./app/backend/db:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 1s
-      timeout: 3s
-      retries: 5
+      - postgres_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASS}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/${POSTGRESQL_DB}
+      KC_DB_USERNAME: ${POSTGRESQL_USER}
+      KC_DB_PASSWORD: ${POSTGRESQL_PASS}
+    ports:
+      - 8080:8080
+    command:
+      - start-dev
 
 volumes:
-  movie_data:
-
-configs:
-  nginx_config:
-    file: ./app/frontend/nginx/nginx.conf
+  postgres_data:
