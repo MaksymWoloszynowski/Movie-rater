@@ -5,6 +5,13 @@ metadata:
   namespace: movie-rater
 spec:
   ingressClassName: nginx
+
+  tls:
+  - hosts:
+    - movie-rater.local
+    - auth.movie-rater.local
+    secretName: tls-secret
+
   rules: 
   - host: movie-rater.local
     http:
@@ -24,4 +31,14 @@ spec:
             name: backend-service
             port:
               number: 3000
+
   - host: auth.movie-rater.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak-service
+            port:
+              number: 8080

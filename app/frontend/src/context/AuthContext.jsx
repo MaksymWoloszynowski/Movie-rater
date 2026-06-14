@@ -10,17 +10,28 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
-     if (keycloak.didInitialize) { 
-          return
-        }
+    let mounted = true;
 
-    keycloak.init({ onLoad: "login-required" }).then((auth) => {
+    keycloak.init({
+      onLoad: "login-required",
+      checkLoginIframe: false,
+    })
+    .then((auth) => {
+      if (!mounted) return;
+
       setIsLogin(auth);
       setToken(keycloak.token);
       setUsername(keycloak.tokenParsed?.preferred_username);
       setInitialized(true);
+    })
+    .catch((err) => {
+      console.error("Keycloak init failed:", err);
+      setInitialized(true);
     });
 
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (

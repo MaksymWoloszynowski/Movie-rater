@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: maksymw/movie-rater-frontend:v1
+          image: maksymw/movie-rater-frontend:v2
           imagePullPolicy: Always
           securityContext:
             runAsNonRoot: true
@@ -48,19 +48,13 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
-          env:
-          - name: VITE_KEYCLOAK_URL 
-            valueFrom:
-              configMapKeyRef:
-                name: frontend-config
-                key: VITE_KEYCLOAK_URL
-          - name: VITE_KEYCLOAK_REALM 
-            valueFrom:
-              configMapKeyRef:
-                name: frontend-config
-                key: VITE_KEYCLOAK_REALM
-          - name: VITE_KEYCLOAK_CLIENT 
-            valueFrom:
-              configMapKeyRef:
-                name: frontend-config
-                key: VITE_KEYCLOAK_CLIENT
+          
+          volumeMounts:
+            - name: env-config
+              mountPath: /usr/share/nginx/html/env.js
+              subPath: env.js
+
+      volumes:
+        - name: env-config
+          configMap:
+            name: frontend-config

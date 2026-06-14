@@ -39,7 +39,7 @@ spec:
             echo "Postgres is ready!"
       containers:
       - name: backend
-        image: maksymw/movie-rater-backend:v1
+        image: maksymw/movie-rater-backend:v2
         imagePullPolicy: Always
         securityContext:
           runAsNonRoot: true
@@ -81,11 +81,11 @@ spec:
             secretKeyRef:
               name: backend-secret
               key: DB_PASSWORD
-        - name: JWT_SECRET 
+        - name: PUBLICKEY
           valueFrom:
             secretKeyRef:
               name: backend-secret
-              key: JWT_SECRET
+              key: PUBLICKEY
         - name: DB_HOST 
           valueFrom:
             configMapKeyRef:
