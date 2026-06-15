@@ -6,6 +6,6 @@ data:
   env.js: |
     window.__ENV__ = {
       KEYCLOAK_URL: "https://auth.movie-rater.local",
-      KEYCLOAK_REALM: "master",
-      KEYCLOAK_CLIENT: "movie-rater"
+      KEYCLOAK_REALM: "movie-rater",
+      KEYCLOAK_CLIENT: "frontend-client"
     };

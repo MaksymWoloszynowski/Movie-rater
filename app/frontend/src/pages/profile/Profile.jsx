@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import styles from "./Profile.module.css";
 import ReviewsList from "../../components/userReviews/reviewsList/ReviewsList";
-import { useAuth } from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 const Profile = () => {
   const { username } = useParams();

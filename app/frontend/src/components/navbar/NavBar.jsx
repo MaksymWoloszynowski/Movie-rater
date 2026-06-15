@@ -4,7 +4,7 @@ import api from "../../api/api";
 import styles from "./NavBar.module.css";
 
 const NavBar = () => {
-  const { isLogin, username, keycloak } = useAuth();
+  const { isLogin, isAdmin, username, keycloak } = useAuth();
   const navigate = useNavigate();
 
   console.log()
@@ -24,6 +24,9 @@ const NavBar = () => {
           <>
             <span>Hello, {username}</span>
             <Link to={`/users/${username}`}>Profile</Link>
+            {isLogin && isAdmin && (
+              <Link to="/admin">Admin</Link>
+            )}
 
             <button onClick={() => keycloak.logout({redirectUri: window.location.origin})} className={styles.logout}>Logout</button>
           </>

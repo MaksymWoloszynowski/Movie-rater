@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import keycloak from "../../keycloak";
+import api from "../api/api";
 
 const AuthContext = createContext(null);
 
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isBanned, setIsBanned] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -25,13 +27,20 @@ export const AuthProvider = ({ children }) => {
       onLoad: "login-required",
       checkLoginIframe: false,
     })
-    .then((auth) => {
+    .then(async (auth) => {
       if (!mounted) return;
 
       setIsLogin(auth);
       setToken(keycloak.token);
       setUsername(keycloak.tokenParsed?.preferred_username);
       setIsAdmin(isAdminToken(keycloak.tokenParsed));
+      try {
+        const res = await api.get(`/users/me`);
+        setIsBanned(res.data.is_banned);
+      } catch (err) {
+        console.error("Failed to fetch profile for ban status", err);
+      }
+
       setInitialized(true);
     })
     .catch((err) => {
@@ -52,7 +61,8 @@ export const AuthProvider = ({ children }) => {
         username,
         isAdmin,
         keycloak,
-        initialized,
+          isBanned,
+          initialized,
       }}
     >
       {children}

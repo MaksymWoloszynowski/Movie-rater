@@ -21,7 +21,7 @@ const Home = () => {
 
         setBestRatedMovies(result.data);
       } catch (error) {
-        console.error(err);
+        console.error(error);
         setError("Error fetching movies");
         setBestRatedMovies([]);
       } finally {
