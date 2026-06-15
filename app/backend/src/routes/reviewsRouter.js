@@ -5,6 +5,6 @@ import authenticateToken from "../middleware/auth.js";
 const router = express.Router({ mergeParams: true });
 
 router.get("/", reviewsController.getAllMovieReviews);
-router.post("/", authenticateToken, reviewsController.postReview);
+router.post("/", reviewsController.postReview);
 
 export default router;

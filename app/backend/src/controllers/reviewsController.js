@@ -50,7 +50,6 @@ const postReview = async (req, res) => {
     res.status(500).json({ error: "Failed to add a review" });
   }
 };
-
 export default {
     getAllMovieReviews,
     postReview

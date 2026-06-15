@@ -86,6 +86,18 @@ const banUser = async (req, res) => {
   }
 };
 
+const getCurrentUserStatus = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+
+  res.status(200).json({
+    username: req.user.username,
+    is_banned: req.user.is_banned,
+    is_admin: req.user.is_admin,
+  });
+};
+
 const unbanUser = async (req, res) => {
   const { username } = req.params;
 
@@ -110,5 +122,6 @@ export default {
   getUserProfile,
   getUserReviews,
   banUser,
+  getCurrentUserStatus,
   unbanUser,
 };

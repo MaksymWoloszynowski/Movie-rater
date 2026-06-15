@@ -46,10 +46,6 @@ const authenticateToken = async (req, res, next) => {
 
     const currentUser = user.rows[0];
 
-    if (currentUser.is_banned) {
-      return res.status(403).json({ message: "Account is banned" });
-    }
-
     req.user = {
       ...currentUser,
       is_admin: isAdmin,
@@ -61,6 +57,14 @@ const authenticateToken = async (req, res, next) => {
     console.error(error);
     return res.status(401).json({ message: "Token invalid" });
   }
+};
+
+export const rejectBanned = (req, res, next) => {
+  if (req.user?.is_banned) {
+    return res.status(403).json({ message: "Account is banned" });
+  }
+
+  next();
 };
 
 export const authorizeAdmin = (req, res, next) => {
