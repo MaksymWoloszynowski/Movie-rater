@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import styles from "./Profile.module.css";
 import ReviewsList from "../../components/userReviews/reviewsList/ReviewsList";
+import { useAuth } from "../../hooks/useAuth";
 
 const Profile = () => {
   const { username } = useParams();
+  const { username: currentUser, isAdmin } = useAuth();
   const [profile, setProfile] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +32,21 @@ const Profile = () => {
     fetchData();
   }, [username]);
 
+  const handleBanToggle = async () => {
+    if (!profile) return;
+    setActionLoading(true);
+
+    try {
+      const endpoint = profile.is_banned ? "unban" : "ban";
+      const result = await api.patch(`/users/${username}/${endpoint}`);
+      setProfile((prev) => ({ ...prev, is_banned: result.data.is_banned }));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   if (loading) return <p className={styles.center}>Loading...</p>;
   if (!profile) return <p className={styles.center}>User not found</p>;
 
@@ -38,6 +56,20 @@ const Profile = () => {
         <div className={styles.avatar}>{profile.username[0].toUpperCase()}</div>
 
         <h1 className={styles.username}>{profile.username}</h1>
+
+        {profile.is_banned && (
+          <p className={styles.banned}>This user is banned</p>
+        )}
+
+        {isAdmin && currentUser !== username && (
+          <button
+            className={styles.adminButton}
+            onClick={handleBanToggle}
+            disabled={actionLoading}
+          >
+            {profile.is_banned ? "Unban user" : "Ban user"}
+          </button>
+        )}
 
         <div className={styles.stats}>
           <div className={styles.stat}>

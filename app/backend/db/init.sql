@@ -4,7 +4,8 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     keycloak_id TEXT NOT NULL UNIQUE,
     username TEXT,
-    email TEXT
+    email TEXT,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- MOVIES
