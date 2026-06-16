@@ -65,8 +65,27 @@ const getMovieByTitle = async (req, res) => {
   }
 };
 
+const addMovie = async (req, res) => {
+  const { title, original_language, overview, poster_path, release_date, slug } = req.body;
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO movies (title, original_language, overview, poster_path, release_date, slug)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING *`,
+      [title, original_language, overview, poster_path, release_date, slug]
+    );
+
+    res.status(201).json({ movie: result.rows[0] });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to add a movie" });
+  }
+}
+
 export default {
   getAllMovies,
   getBestReviewedMovies,
   getMovieByTitle,
+  addMovie
 };

@@ -2,9 +2,10 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- USERS
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL
+    keycloak_id TEXT NOT NULL UNIQUE,
+    username TEXT,
+    email TEXT,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- MOVIES

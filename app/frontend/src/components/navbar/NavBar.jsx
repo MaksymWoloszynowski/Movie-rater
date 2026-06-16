@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../layouts/hooks/useAuth";
 import api from "../../api/api";
 import styles from "./NavBar.module.css";
-import useLogout from "../../hooks/useLogout";
 
 const NavBar = () => {
-  const { auth, setAuth } = useAuth();
-  const logout  = useLogout()
+  const { isLogin, isAdmin, username, keycloak } = useAuth();
   const navigate = useNavigate();
+
+  console.log()
 
   return (
     <nav className={styles.nav}>
@@ -20,17 +20,20 @@ const NavBar = () => {
       </div>
 
       <div className={styles.right}>
-        {auth ? (
+        {isLogin ? (
           <>
-            <span>Hello, {auth.username}</span>
-            <Link to={`/users/${auth.username}`}>Profile</Link>
+            <span>Hello, {username}</span>
+            <Link to={`/users/${username}`}>Profile</Link>
+            {isLogin && isAdmin && (
+              <Link to="/admin">Admin</Link>
+            )}
 
-            <button onClick={() => logout()} className={styles.logout}>Logout</button>
+            <button onClick={() => keycloak.logout({redirectUri: window.location.origin})} className={styles.logout}>Logout</button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <button onClick={() => keycloak.login()}>Login</button>
+            <button onClick={() => keycloak.register()}>Register</button>
           </>
         )}
       </div>

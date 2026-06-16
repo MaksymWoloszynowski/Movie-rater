@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deployment
+  namespace: movie-rater
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: keycloak
+  template:
+    metadata:
+      labels:
+        component: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:26.6.3
+
+        args:
+          - start-dev
+
+        env:
+          - name: KEYCLOAK_ADMIN
+            value: admin
+          - name: KEYCLOAK_ADMIN_PASSWORD
+            value: admin
+          - name: KC_HOSTNAME
+            value: auth.movie-rater.local
+          - name: KC_HOSTNAME_STRICT
+            value: "true"
+          - name: KC_HTTP_ENABLED
+            value: "true"
+          - name: KC_HOSTNAME_STRICT_HTTPS
+            value: "true"
+          - name: KC_PROXY_HEADERS
+            value: xforwarded
+          - name: KC_PROXY
+            value: edge
+          - name: KC_DB
+            value: postgres
+
+          - name: KC_DB_URL
+            value: jdbc:postgresql://postgres-service:5432/keycloak
+
+          - name: KC_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_USER
+
+          - name: KC_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
+          
+
+        ports:
+          - name: http
+            containerPort: 8080
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20

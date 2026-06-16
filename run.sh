@@ -29,8 +29,14 @@ kubectl apply -f k8s/backend/backend-hpa.yaml
 kubectl apply -f k8s/backend/backend-network.yaml
 
 echo "Deploying Frontend..."
+kubectl apply -f k8s/frontend/frontend-configmap.yaml
 kubectl apply -f k8s/frontend/frontend-service.yaml
 kubectl apply -f k8s/frontend/frontend-deployment.yaml
+
+echo "Deploying Kubernetes..."
+kubectl apply -f k8s/keycloak/keycloak-secrets.yaml
+kubectl apply -f k8s/keycloak/keycloak-service.yaml
+kubectl apply -f k8s/keycloak/keycloak-deployment.yaml
 
 echo "Applying network policies..."
 kubectl apply -f k8s/network.yaml

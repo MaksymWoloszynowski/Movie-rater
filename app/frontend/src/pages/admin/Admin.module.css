@@ -1,0 +1,54 @@
+.page {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 80rem;
+  background: #111;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form input, .form textarea {
+  padding: 0.6rem;
+  background: #0f0f0f;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.addButton {
+  padding: 0.6rem 1rem;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 10rem;
+  margin-top: 0.5rem;
+}
+
+.list { display: flex; flex-direction: column; gap: 0.75rem; }
+.movie { display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:#0b0b0b; border-radius:0.5rem }
+.movieInfo { display:flex; flex-direction:column }
+.movieTitle { font-weight:700 }
+.movieMeta { opacity:0.7; font-size:0.9rem }
+.actions button { background: transparent; border: 1px solid rgba(255,255,255,0.06); color: white; padding:0.4rem 0.6rem; border-radius:0.5rem; cursor:pointer }
+.center { text-align:center; opacity:0.7 }

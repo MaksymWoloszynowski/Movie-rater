@@ -9,8 +9,6 @@ const MovieCard = ({ movie }) => {
     navigate(`/movies/${movie.slug}`);
   };
 
-  console.log(movie);
-
   return (
     <div className={styles.card} onClick={handleClick}>
       <img
