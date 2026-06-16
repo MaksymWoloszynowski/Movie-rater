@@ -90,7 +90,6 @@ const getCurrentUserStatus = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Not authenticated" });
   }
-
   res.status(200).json({
     username: req.user.username,
     is_banned: req.user.is_banned,

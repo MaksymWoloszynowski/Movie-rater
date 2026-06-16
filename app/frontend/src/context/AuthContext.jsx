@@ -35,7 +35,8 @@ export const AuthProvider = ({ children }) => {
       setUsername(keycloak.tokenParsed?.preferred_username);
       setIsAdmin(isAdminToken(keycloak.tokenParsed));
       try {
-        const res = await api.get(`/users/me`);
+        const res = await api.get("/users/me");
+        
         setIsBanned(res.data.is_banned);
       } catch (err) {
         console.error("Failed to fetch profile for ban status", err);

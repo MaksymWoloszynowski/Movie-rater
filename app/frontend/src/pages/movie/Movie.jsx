@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../../api/api";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../layouts/hooks/useAuth";
 import styles from "./Movie.module.css";
 import { Rating } from "@mui/material";
 

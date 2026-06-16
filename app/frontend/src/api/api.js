@@ -2,7 +2,7 @@ import axios from "axios";
 import keycloak from "../../keycloak";
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "http://localhost:3000/api",
   withCredentials: true,
 });
 

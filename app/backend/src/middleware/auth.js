@@ -46,9 +46,12 @@ const authenticateToken = async (req, res, next) => {
 
     const currentUser = user.rows[0];
 
+    console.log(currentUser)
+
     req.user = {
       ...currentUser,
       is_admin: isAdmin,
+      is_banned: currentUser.is_banned,
       roles,
     };
 

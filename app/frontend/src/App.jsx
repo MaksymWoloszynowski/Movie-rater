@@ -6,7 +6,7 @@ import Movie from "./pages/movie/Movie";
 import AppLayout from "./layouts/AppLayout";
 import Profile from "./pages/profile/Profile";
 import Admin from "./pages/admin/Admin";
-import useAuth from "./hooks/useAuth";
+import useAuth from "./layouts/hooks/useAuth";
 
 function App() {
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
-import useAuth from "../hooks/useAuth";
+import useAuth from "./hooks/useAuth";
 import Banned from "../pages/banned/Banned";
 import styles from "./AppLayout.module.css";
 

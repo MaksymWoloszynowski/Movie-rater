@@ -12,7 +12,7 @@ const router = Router();
 router.use("/movies", authenticateToken, rejectBanned, movieRouter)
 router.use("/search", authenticateToken, rejectBanned, searchRouter)
 router.use("/movies/:movieId/reviews", authenticateToken, rejectBanned, reviewsRouter)
-router.use('/users', authenticateToken, rejectBanned, usersRouter)
+router.use("/users",authenticateToken, usersRouter)
 router.use("/health", healthRouter)
 
 export default router;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api/api";
 import styles from "./Admin.module.css";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../layouts/hooks/useAuth";
 
 const Admin = () => {
   const { isAdmin } = useAuth();
