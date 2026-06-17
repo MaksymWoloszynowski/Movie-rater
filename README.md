@@ -1,7 +1,5 @@
 ## Autor:
-name: Maksym
-
-surname: Wołoszynowski
+Maksym Wołoszynowski
 
 # Uruchomienie środowiska lokalnego
 
