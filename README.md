@@ -1,3 +1,8 @@
+## Autor:
+name: Maksym
+
+surname: Wołoszynowski
+
 # Uruchomienie środowiska lokalnego
 
 ## Wymagania
